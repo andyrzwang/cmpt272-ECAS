@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
-import "./home.css";
+import "./main.css";
 
 function HomePage(){
     return (
@@ -9,7 +9,7 @@ function HomePage(){
             <main>
                 <div className="background-container">
                     <h1 className="main-header">Metro Vancouver 9-1-1 <br/> Emergency Report System</h1>
-                    <a className="custom-button" href="/">Click Here to Start</a>
+                    <a className="custom-button" href="/map">Click Here to Start</a>
                     <h2>Welcome to the Metro Vancouver Emergency Report System</h2>
                 </div>
                 <div className="main-information">

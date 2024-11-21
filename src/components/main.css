@@ -66,3 +66,46 @@ h3{
     padding: 20px;
     border-radius: 5px;
 }
+
+.map{
+    width: 50%;
+    margin-bottom: 60px;
+    max-width: 50%;
+    margin-left: 2%;
+}
+
+.map-header{
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 80px;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.map-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.map-p{
+    margin-top: 0px;
+    width: 50%;
+    margin-left: 1%;
+    text-align: center;
+    height: 75vh;
+    border-radius: 5px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.map-instructions{
+    text-align: left;
+    line-height: 3;
+    font-size: large;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+    color: #333;
+}
+
+.map-instructions li {
+    padding: 5px;
+  }
+  
