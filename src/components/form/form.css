@@ -1,0 +1,48 @@
+.form-container {
+    padding: 30px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.required-field {
+    color: red;
+}
+
+.form h2{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.reporter-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+}
+
+.reporter-info input {
+    width: 20%;
+}
+
+.emergency-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+}
+
+.emergency-info input {
+    width: 20%;
+}
+
+input[readOnly] {
+    background-color: #f0f0f0;
+}

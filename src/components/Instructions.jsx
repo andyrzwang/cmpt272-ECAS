@@ -3,7 +3,7 @@ import "./main.css";
 
 function Instructions() {
   return (
-    <p className="map-p">
+    <>
       <h3>How to Use</h3>
       <ul className="map-instructions">
         <li>
@@ -24,7 +24,7 @@ function Instructions() {
           map.
         </li>
       </ul>
-    </p>
+    </>
   );
 }
 
