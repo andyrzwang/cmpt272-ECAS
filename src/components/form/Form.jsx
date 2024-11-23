@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "./form.css";
 
-function Form({ lat, lng }) {
+function Form({ lat, lng, setSidebar }) {
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -13,7 +13,12 @@ function Form({ lat, lng }) {
         // Add status to data
         const status = "Open";
         data.status = status;
+        setSidebar({ type: "list", data: data });
         console.log(data);
+    }
+
+    function handleCancel() {
+        setSidebar({ type: "instructions", data: null });
     }
 
   return (
@@ -73,6 +78,7 @@ function Form({ lat, lng }) {
           <label htmlFor="lng">Longitude</label>
           <input type="text" id="lng" name="lng" value={lng.toFixed(5)} readOnly></input>
         </div>
+        <button type="button" onClick={handleCancel}>Cancel</button>
         <button type="submit">Submit</button>
       </form>
     </div>
