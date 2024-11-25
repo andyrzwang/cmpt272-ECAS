@@ -1,25 +1,28 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./form.css";
+import { storeReport } from "../storage/storage";
 
 function Form({ lat, lng, setSidebar }) {
+  function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    // Add submission time to data
+    const submissionTime = new Date().toLocaleString("en-CA");
+    data.submissionTime = submissionTime;
+    // Add status to data
+    const status = "Open";
+    data.status = status;
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
-        // Add submission time to data
-        const submissionTime = new Date().toLocaleString('en-CA');
-        data.submissionTime = submissionTime;
-        // Add status to data
-        const status = "Open";
-        data.status = status;
-        setSidebar({ type: "list", data: data });
-        console.log(data);
-    }
+    //store in local storage
+    storeReport(data);
+    setSidebar({ type: "list", data: data });
+    console.log(data);
+  }
 
-    function handleCancel() {
-        setSidebar({ type: "instructions", data: null });
-    }
+  function handleCancel() {
+    setSidebar({ type: "instructions", data: null });
+  }
 
   return (
     <div className="form-container" onSubmit={handleSubmit}>
@@ -74,11 +77,25 @@ function Form({ lat, lng, setSidebar }) {
             </em>
           </p>
           <label htmlFor="lat">Latitude</label>
-          <input type="text" id="lat" name="lat" value={lat.toFixed(5)} readOnly></input>
+          <input
+            type="text"
+            id="lat"
+            name="lat"
+            value={lat.toFixed(5)}
+            readOnly
+          ></input>
           <label htmlFor="lng">Longitude</label>
-          <input type="text" id="lng" name="lng" value={lng.toFixed(5)} readOnly></input>
+          <input
+            type="text"
+            id="lng"
+            name="lng"
+            value={lng.toFixed(5)}
+            readOnly
+          ></input>
         </div>
-        <button type="button" onClick={handleCancel}>Cancel</button>
+        <button type="button" onClick={handleCancel}>
+          Cancel
+        </button>
         <button type="submit">Submit</button>
       </form>
     </div>
