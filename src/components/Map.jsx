@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "./main.css";
+import { showReports } from "./storage/storage";
 
 function Map({ setSidebar }) {
   let marker = null;
@@ -36,6 +37,9 @@ function Map({ setSidebar }) {
       }
       setSidebar({ type: "form", data: { lat, lng } });
     });
+
+    //localStorage.clear();
+    showReports(map, yellowMarker);
 
     return () => {
       map.remove();
