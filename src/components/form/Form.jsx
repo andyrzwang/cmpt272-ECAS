@@ -26,9 +26,8 @@ function Form({ lat, lng, setSidebar }) {
 
   return (
     <div className="form-container" onSubmit={handleSubmit}>
-      <h1 className="form-header">Report an Emergency</h1>
+      <h2 className="form-header">Report an Emergency</h2>
       <form className="form">
-        <h2>Reporter's Information</h2>
         <div className="reporter-info">
           <label htmlFor="name">
             Name <span className="required-field">*</span>
@@ -46,7 +45,6 @@ function Form({ lat, lng, setSidebar }) {
             title="Phone number must be in the format (123) 456-7890"
           ></input>
         </div>
-        <h2>Emergency Information</h2>
         <div className="emergency-info">
           <label htmlFor="emergency-type">
             Emergency Type <span className="required-field">*</span>
@@ -72,7 +70,7 @@ function Form({ lat, lng, setSidebar }) {
           <p>
             <em>
               Latitude and Longtitude are required to display the pin on the
-              map.<br></br>
+              map.
               Right-click on the map to input or change the coordinates.
             </em>
           </p>
@@ -93,10 +91,12 @@ function Form({ lat, lng, setSidebar }) {
             readOnly
           ></input>
         </div>
-        <button type="button" onClick={handleCancel}>
-          Cancel
-        </button>
-        <button type="submit">Submit</button>
+        <div className="buttons">
+          <button type="button" onClick={handleCancel}>
+            Cancel
+          </button>
+          <button type="submit">Submit</button>
+        </div>
       </form>
     </div>
   );
