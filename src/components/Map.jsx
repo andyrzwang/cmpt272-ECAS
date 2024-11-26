@@ -8,6 +8,14 @@ function Map({ setSidebar }) {
   let marker = null;
 
   useEffect(() => {
+
+    const removeBoxShadow = () => {
+      const sidebars = document.querySelectorAll(".sidebar");
+      sidebars.forEach((sidebar) => {
+        sidebar.style.boxShadow = "none";
+      });
+    };
+
     var map = L.map("map").setView(
       [49.279270550904485, -122.92023314700886],
       11
@@ -36,6 +44,7 @@ function Map({ setSidebar }) {
         marker = L.marker([lat, lng], { icon: yellowMarker }).addTo(map);
       }
       setSidebar({ type: "form", data: { lat, lng } });
+      removeBoxShadow();
     });
 
     //localStorage.clear();
