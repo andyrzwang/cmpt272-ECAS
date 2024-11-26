@@ -1,43 +1,48 @@
 import React from "react";
 import "./emergencyList.css";
+import { getAllReports } from "../storage/storage";
+import { useState } from "react";
 
-function EmergencyList({ setSidebar, data }) {
+function EmergencyList() {
+
+  const reports = getAllReports();
+  const reportsPerPage = 5;
+  const [currentStartIndex, setCurrentStartIndex] = useState(0);
+
+  const endIndex = Math.min(currentStartIndex + reportsPerPage, reports.length);
+  const currentPageReports = reports.slice(currentStartIndex, endIndex);
+  
+  const handleNext = () => {
+    if (currentStartIndex + reportsPerPage < reports.length) {
+      setCurrentStartIndex(currentStartIndex + reportsPerPage);
+    }
+  };
+  
+  const handlePrevious = () => {
+    if (currentStartIndex - reportsPerPage >= 0) {
+      setCurrentStartIndex(currentStartIndex - reportsPerPage);
+    }
+  };
+
   return (
     <div className="emergency-list">
-      <h2>Emergency List</h2>
-        <strong>Placeholder</strong>
-        <ul>
-          <li>
-            <strong>Reporter's Name:</strong> {data.name}
+      <h2 className="emergency-list-header">Emergency List</h2>
+      <h4><em>Click submission for more details</em></h4>
+        <ul className="list">
+          
+        {currentPageReports.map((report) => (
+          <li key={report.id}>
+            <p><strong>Type: </strong><br></br>{report["emergency-type"]}</p>
+            <p><strong>Location: </strong><br></br>{report.location}</p>
+            <p><strong>Submitted at: </strong><br></br>{report.submissionTime}</p>
+            <p><strong>Status: </strong><br></br>{report.status}</p>
           </li>
-          <li>
-            <strong>Reporter's Phone Number:</strong> {data.phone}
-          </li>
-          <li>
-            <strong>Emergency Type:</strong> {data["emergency-type"]}
-          </li>
-          <li>
-            <strong>Location:</strong> {data.location}
-          </li>
-          <li>
-            <strong>Image URL:</strong> {data.image}
-          </li>
-          <li>
-            <strong>Comment: </strong> {data.comment}
-          </li>
-            <li>
-                <strong>Latitude:</strong> {data.lat}
-            </li>
-            <li>
-                <strong>Longitude:</strong> {data.lng}
-            </li>
-          <li>
-            <strong>Submission Time:</strong> {data.submissionTime}
-          </li>
-          <li>
-            <strong>Status:</strong> {data.status}
-          </li>
+        ))}
         </ul>
+
+        <button onClick={handlePrevious} disabled={currentStartIndex === 0}>Previous</button>
+        <button onClick={handleNext}>Next</button>
+
     </div>
   );
 }

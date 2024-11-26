@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./form.css";
-import { storeReport } from "../storage/storage";
+import { storeReport, getAllReports } from "../storage/storage";
 
 function Form({ lat, lng, setSidebar }) {
   function handleSubmit(event) {
@@ -21,7 +21,12 @@ function Form({ lat, lng, setSidebar }) {
   }
 
   function handleCancel() {
-    setSidebar({ type: "instructions", data: null });
+    const reports = getAllReports();
+    if (reports.length > 0) {
+      setSidebar({ type: "list", data: null });
+    } else{
+      setSidebar({ type: "instructions", data: null });
+    }
   }
 
   return (
@@ -74,7 +79,8 @@ function Form({ lat, lng, setSidebar }) {
               Right-click on the map to input or change the coordinates.
             </em>
           </p>
-          <label htmlFor="lat">Latitude</label>
+          <label htmlFor="lat">Latitude <small>(automatically filled out based on
+            marker placement; only changed through marker placement)</small></label>
           <input
             type="text"
             id="lat"
@@ -82,7 +88,8 @@ function Form({ lat, lng, setSidebar }) {
             value={lat.toFixed(5)}
             readOnly
           ></input>
-          <label htmlFor="lng">Longitude</label>
+          <label htmlFor="lng">Longitude <small>(automatically filled out based on
+            marker placement; only changed through marker placement)</small></label>
           <input
             type="text"
             id="lng"
