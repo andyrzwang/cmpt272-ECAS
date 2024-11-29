@@ -1,3 +1,29 @@
-li {
-    text-align: left;
+.emergency-list-header{
+    background-color: #3f6ba5;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 2px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-top: 0px;
 }
+
+.list li{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    background-color: rgb(247, 246, 246);
+    border-radius: 5px;
+    margin-bottom: 5px;
+    justify-content: space-evenly;
+    margin-left: -30px;
+    text-align: center;
+}
+
+li:hover{
+    border: 1px solid black
+}
+
+.list li p {
+    width: 25%;
+  }
