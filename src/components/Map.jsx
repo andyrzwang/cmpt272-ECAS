@@ -8,7 +8,6 @@ function Map({ setSidebar }) {
   let marker = null;
 
   useEffect(() => {
-
     const removeBoxShadow = () => {
       const sidebars = document.querySelectorAll(".sidebar");
       sidebars.forEach((sidebar) => {
