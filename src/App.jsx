@@ -1,6 +1,7 @@
 import HomePage from './components/HomePage';
 import MapPage from './components/MapPage';
-import Contactpage from './components/Contactpage';
+// import ContactPage from './components/contactpage';
+import { ContactPage, people } from './components/contactpage';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -13,7 +14,7 @@ function App() {
       <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/map" element={<MapPage />} />
-          <Route path="/contact" element={<Contactpage />} />
+          <Route path="/contact" element={<ContactPage />} />
       </Routes>
       </Router>
     </div>
