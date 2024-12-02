@@ -1,10 +1,14 @@
 .emergency-list-header{
-    background-color: #3f6ba5;
+    background-color: rgb(247, 246, 246);
     padding: 20px;
     border-radius: 5px;
     margin-bottom: 2px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin-top: 0px;
+}
+
+.sub-heading{
+    font-size: small;
 }
 
 .list li{
@@ -39,4 +43,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+}
+
+.sort{
+    width: 100%;
 }
