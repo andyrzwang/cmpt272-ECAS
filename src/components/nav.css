@@ -44,25 +44,21 @@ nav ul li {
 }   
 
 .inputBox{
-    width: 200px;
+    width: 100px;
     height: 30px;
     border-radius: 5px;
-    /* border: 1px solid #ffffff; */
     padding: 20px;
 }
 
 .session-button {
     text-align: center;
-    padding: 10px;  
-        /* color: white; */
-    /* border: none;
-    padding: 10px 50px;
+    padding: 10px;
+    width: 125px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+    text-decoration: none;
+    color: white;
+    background-color: #3f6ba5;
     border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    text-align: center; */
+    border: #3f6ba5;
+    margin-left: 5px;
 }
-
-/* .session-button:hover {
-    background-color: #0056b3;
-} */

@@ -94,10 +94,10 @@ h3{
     text-align: center;
     height: 75vh;
     border-radius: 5px;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .map-instructions{
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
     text-align: left;
     line-height: 3;
     font-size: large;

@@ -17,7 +17,7 @@ function Navbar(){
             //pop up alert to show that the user is logged out
             alert("You are logged out!");
             //change the button text to signIn
-            document.getElementsByClassName("session-button")[0].innerText = "sign In";
+            document.getElementsByClassName("session-button")[0].innerText = "Sign In";
             return;
         }
 
@@ -30,7 +30,7 @@ function Navbar(){
             document.getElementById("input_username").value = "";
             document.getElementById("input_password").value = "";
             //change the button text to signOut
-            document.getElementsByClassName("session-button")[0].innerText = "sign Out";
+            document.getElementsByClassName("session-button")[0].innerText = "Sign Out";
         }
 
     };
@@ -45,7 +45,7 @@ function Navbar(){
                     <li className="links"><Link to="/placeholder">About</Link></li>
                     <li className="links"><Link to="/placeholder">Contact Us</Link></li>
                 </ul>
-                <table>
+                <table className="sign-in">
                     <tr>
                         <td className="inputBox">
                         <label>
@@ -68,7 +68,7 @@ function Navbar(){
                         </td>
                         <td className="inputBox">
                             <button onClick={checkSessionButton} className="session-button">
-                                {getIsUserLoggedIn() ? "sign Out" : "sign In"}
+                                {getIsUserLoggedIn() ? "Sign Out" : "Sign In"}
                             </button>
                         </td>     
                     </tr>

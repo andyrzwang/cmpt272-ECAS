@@ -23,6 +23,10 @@ function Instructions() {
           accordingly. Once properly filled out, the report will be added to the
           map.
         </li>
+        <li> 
+          If you want to delete a report, you must be logged in. Log in at the top
+          of the page.
+        </li>
       </ul>
     </>
   );
