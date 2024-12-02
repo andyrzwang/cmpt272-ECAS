@@ -13,8 +13,8 @@ function Navbar(){
                     <li> <img className="nav-image2" src={logo2} alt="Metro Vancouver Logo"/></li>
                     <li className="links" id="first-link"><Link to="/">Home</Link></li>
                     <li className="links"><Link to="/map">View Map & Submit Report</Link></li>
-                    <li className="links"><Link to="/">About</Link></li>
-                    <li className="links"><Link to="/">Contact Us</Link></li>
+                    <li className="links"><Link to="/placeholder">About</Link></li>
+                    <li className="links"><Link to="/placeholder">Contact Us</Link></li>
                 </ul>
             </nav>
         </div>
