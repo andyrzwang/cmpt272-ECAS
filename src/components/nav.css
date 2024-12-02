@@ -41,4 +41,28 @@ nav ul li {
 
 .links{
     margin-right: 40px;
+}   
+
+.inputBox{
+    width: 200px;
+    height: 30px;
+    border-radius: 5px;
+    /* border: 1px solid #ffffff; */
+    padding: 20px;
 }
+
+.session-button {
+    text-align: center;
+    padding: 10px;  
+        /* color: white; */
+    /* border: none;
+    padding: 10px 50px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center; */
+}
+
+/* .session-button:hover {
+    background-color: #0056b3;
+} */

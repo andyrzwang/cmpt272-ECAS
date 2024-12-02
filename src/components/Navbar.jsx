@@ -3,8 +3,37 @@ import logo from "../assets/ecomm-logo.jpg";
 import logo2 from "../assets/metro-vancouver.png";
 import { Link } from 'react-router-dom';
 import "./nav.css";
+// import { useState } from "react";
+
+import { checkSession , getIsUserLoggedIn} from "./session";
+
 
 function Navbar(){
+    const checkSessionButton = () => {
+        //check if user already signed in
+        if (getIsUserLoggedIn()) {
+            //set isUserLoggedIn to false
+            // setIsUserLoggedIn(false);
+            //pop up alert to show that the user is logged out
+            alert("You are logged out!");
+            //change the button text to signIn
+            document.getElementsByClassName("session-button")[0].innerText = "sign In";
+            return;
+        }
+
+
+        var username = document.getElementById("input_username").value;
+        var password = document.getElementById("input_password").value;
+        checkSession(username, password);
+        if (getIsUserLoggedIn()) {
+            //clear the input boxes
+            document.getElementById("input_username").value = "";
+            document.getElementById("input_password").value = "";
+            //change the button text to signOut
+            document.getElementsByClassName("session-button")[0].innerText = "sign Out";
+        }
+
+    };
     return (
         <div className="nav-container">
             <nav className="navbar">
@@ -16,6 +45,35 @@ function Navbar(){
                     <li className="links"><Link to="/">About</Link></li>
                     <li className="links"><Link to="/">Contact Us</Link></li>
                 </ul>
+                <table>
+                    <tr>
+                        <td className="inputBox">
+                        <label>
+                            Username:{" "}
+                            <input
+                                type="text"
+                                id="input_username"
+                                // onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </label>
+                        </td>
+                        <td className="inputBox">
+                            <label>
+                            Password:{" "}
+                            <input
+                                type="password"
+                                id="input_password"
+                            />
+                            </label>
+                        </td>
+                        <td className="inputBox">
+                            <button onClick={checkSessionButton} className="session-button">
+                                {getIsUserLoggedIn() ? "sign Out" : "sign In"}
+                            </button>
+                        </td>     
+                    </tr>
+                </table>
+
             </nav>
         </div>
     );
