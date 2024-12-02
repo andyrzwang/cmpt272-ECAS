@@ -10,7 +10,7 @@
 .list li{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 10px;
     background-color: rgb(247, 246, 246);
     border-radius: 5px;
@@ -20,10 +20,23 @@
     text-align: center;
 }
 
-li:hover{
+.list li:hover{
     border: 1px solid black
 }
 
-.list li p {
+.list li p, .additional-details p {
     width: 25%;
   }
+  
+  .main-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+}
+
+.additional-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

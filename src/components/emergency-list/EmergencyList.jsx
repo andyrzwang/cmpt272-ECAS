@@ -24,18 +24,40 @@ function EmergencyList() {
     }
   };
 
+  const [expandedReportId, setExpandedReportId] = useState(null);
+
+  const displayDetails = (reportId) => {
+    if (expandedReportId === reportId) {
+      setExpandedReportId(null);
+    } else {
+      setExpandedReportId(reportId);
+    }
+  }
+
   return (
+
     <div className="emergency-list">
       <h2 className="emergency-list-header">Emergency List</h2>
       <h4><em>Click submission for more details</em></h4>
+      
         <ul className="list">
+          {currentPageReports.map((report) => (
+          <li key={report.id} onClick={() => displayDetails(report.id)}>
+            <div className="main-details">
+              <p><strong>Type: </strong><br />{report["emergency-type"]}</p>
+              <p><strong>Location: </strong><br />{report.location}</p>
+              <p><strong>Submitted at: </strong><br />{report.submissionTime}</p>
+              <p><strong>Status: </strong><br />{report.status}</p>
+            </div>
           
-        {currentPageReports.map((report) => (
-          <li key={report.id}>
-            <p><strong>Type: </strong><br></br>{report["emergency-type"]}</p>
-            <p><strong>Location: </strong><br></br>{report.location}</p>
-            <p><strong>Submitted at: </strong><br></br>{report.submissionTime}</p>
-            <p><strong>Status: </strong><br></br>{report.status}</p>
+            {expandedReportId === report.id && (
+            <div className="additional-details">
+              <p><strong>Submitted By: </strong><br />{report.name}</p>
+              <p><strong>Submitter's Phone: </strong><br />{report.phone}</p>
+              <p><strong>Image: </strong><br />{report.image}</p>
+              <p><strong>Comments: </strong><br />{report.comment}</p>
+            </div>
+          )}
           </li>
         ))}
         </ul>
