@@ -41,4 +41,15 @@ nav ul li {
 
 .links{
     margin-right: 40px;
-}
+}   
+
+
+.signinButton{
+    border: none;
+    color: white;
+    padding: 5px 40px;
+    font-size: 16px;
+    /* margin: 4px 2px; */
+    cursor: pointer;
+    text-align: bottom;
+  }
