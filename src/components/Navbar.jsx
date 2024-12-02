@@ -68,7 +68,7 @@ function Navbar(){
                         </td>
                         <td className="inputBox">
                             <button onClick={checkSessionButton} className="session-button">
-                                signIn
+                                {getIsUserLoggedIn() ? "sign Out" : "sign In"}
                             </button>
                         </td>     
                     </tr>
