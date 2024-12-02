@@ -42,7 +42,7 @@ input{
     border-bottom: 2px solid #3f6ba5;
 }
 
-button{
+.buttons button{
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
     text-decoration: none;
     color: white;
@@ -56,7 +56,7 @@ button{
     margin-left: 5px;
 }
 
-button:hover{
+.buttons button:hover {
     border: 1px solid black;
 }
 
@@ -66,7 +66,6 @@ button:hover{
 }
 
 .buttons{
-    border-top: 2px solid black;
     padding: 10px;
     border-radius: 3px;
     margin-left: 20px;

@@ -2,6 +2,7 @@ import React from "react";
 import "./emergencyList.css";
 import { getAllReports } from "../storage/storage";
 import { useState, useEffect } from "react";
+import { getIsUserLoggedIn } from "../session";
 
 function EmergencyList() {
 
@@ -64,17 +65,31 @@ function EmergencyList() {
     }
   }
 
+  const deleteReport = (reportId) => {
+    const userStatus = getIsUserLoggedIn();
+    if (!userStatus) {
+      alert("You must be logged in to delete a submission");
+      return;
+    } else{
+      const updatedReports = reports.filter((report) => report.id !== reportId);
+      localStorage.removeItem(reportId);
+      setReports(updatedReports);
+    }
+  };
 
   return (
 
     <div className="emergency-list">
       <h2 className="emergency-list-header">Emergency List <br />
-      <em className="sub-heading">Click on a submission for more details</em>
+        <em className="sub-heading">Click on a submission for more details</em> <br />
       </h2>
-      
-      <button onClick={toggleSort}>
-        {isSorted ? 'Sort: Open First' : 'Sort: Closed First'}
-      </button>
+
+      <div className="buttons">
+        <button onClick={toggleSort}>
+          {isSorted ? 'Sort: Open First' : 'Sort: Closed First'}
+        </button>
+      </div>
+
 
       <ul className="list">
           {currentPageReports.map((report) => (  
@@ -84,6 +99,7 @@ function EmergencyList() {
               <p><strong>Location: </strong><br />{report.location}</p>
               <p><strong>Submitted at: </strong><br />{report.submissionTime}</p>
               <p><strong>Status: </strong><br />{report.status}</p>
+              <button onClick={() => deleteReport(report.id)} className="delete-button">Delete Submission</button>
             </div>
           
             {expandedReportId === report.id && (
@@ -92,14 +108,17 @@ function EmergencyList() {
               <p><strong>Submitter's Phone: </strong><br />{report.phone}</p>
               <p><strong>Image: </strong><br />{report.image}</p>
               <p><strong>Comments: </strong><br />{report.comment}</p>
+              <button onClick={() => deleteReport(report.id)} className="delete-button">Edit Submission</button>
             </div>
           )}
           </li>
         ))}
         </ul>
 
-        <button onClick={handlePrevious} disabled={currentStartIndex === 0}>Previous</button>
-        <button onClick={handleNext}>Next</button>
+        <div className="buttons">
+          <button onClick={handlePrevious} disabled={currentStartIndex === 0}>Previous</button>
+          <button onClick={handleNext}>Next</button>
+        </div>
 
     </div>
   );
