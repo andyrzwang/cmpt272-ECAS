@@ -48,13 +48,14 @@ function Map({ setSidebar }) {
 
     //localStorage.clear();
     showReports(map, yellowMarker);
+        
 
     return () => {
       map.remove();
     };
   }, []);
 
-  return <div id="map" className="map" style={{ height: "75vh" }}></div>;
+  return <div id="map" className="map" style={{ height: "100vh" }}></div>;
 }
 
 export default Map;
