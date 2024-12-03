@@ -61,4 +61,10 @@ nav ul li {
     border-radius: 5px;
     border: #3f6ba5;
     margin-left: 5px;
+    cursor: pointer;
+}
+
+.session-button:hover {
+    background-color: #2d507c;
+    border-color: #2d507c;
 }
