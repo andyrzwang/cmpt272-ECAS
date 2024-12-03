@@ -96,6 +96,26 @@ function EmergencyList() {
     }
   };
 
+  const editReport = (reportId) =>{
+    //user login status
+    const userStatus = getIsUserLoggedIn();
+
+    if (!userStatus){
+      alert("You must be logged in to edit a submission");
+      return;
+    }
+    const updatedReports = reports.map((report) => {
+      if (report.id == reportId){
+        return {...report, ...updatedData};
+      }
+      return report;
+    });
+
+  localStorage.setItem(reportId,JSON.stringify(updatedData));
+  setReports(updatedReports);
+  };
+  
+
   return (
 
     <div className="emergency-list">
@@ -109,7 +129,6 @@ function EmergencyList() {
         </button>
       </div>
 
-
       <ul className="list">
           {currentPageReports.map((report) => (  
           <li key={report.id} onClick={() => displayDetails(report.id)}>
@@ -119,6 +138,7 @@ function EmergencyList() {
               <p><strong>Submitted at: </strong><br />{report.submissionTime}</p>
               <p><strong>Status: </strong><br />{report.status}</p>
               <button onClick={() => deleteReport(report.id)} className="delete-button">Delete Submission</button>
+              <button onClick={() => handleEditClick(report)} className="edit-button">Edit Submission</button>
             </div>
           
             {expandedReportId === report.id && (
