@@ -3,6 +3,7 @@ import "./emergencyList.css";
 import { getAllReports, storeReport } from "../storage/storage";
 import { useState, useEffect } from "react";
 import { EditForm } from "./mmspForm";
+import { getIsUserLoggedIn } from "../session";
 
 function EmergencyList() {
 
@@ -100,8 +101,14 @@ function EmergencyList() {
   };
 
     const handleEditClick = (report) => {
+      const userStatus = getIsUserLoggedIn();
+      if (!userStatus) {
+        alert("You must be logged in to edit a submission");
+        return;
+      } else{
         setOpenEditForm(true)
         setEditingReportData(report)
+      }
     }
 
     const onEditFormSave = (updatedReport) => {
