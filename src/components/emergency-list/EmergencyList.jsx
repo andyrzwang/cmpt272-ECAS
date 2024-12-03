@@ -148,7 +148,7 @@ function EmergencyList() {
               <p><strong>Submitter's Phone: </strong><br />{report.phone}</p>
               <p><strong>Image: </strong><br />{report.image}</p>
               <p><strong>Comments: </strong><br />{report.comment}</p>
-              <button onClick={() => deleteReport(report.id)} className="delete-button">Edit Submission</button>
+              <button onClick={() => deleteReport(report.id)} className="delete-button">Delete Submission</button>
               <button onClick={() => editReport(report.id)} className="edit-button">Edit Submission</button>
 
             </div>
