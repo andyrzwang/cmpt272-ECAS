@@ -61,3 +61,33 @@
     border: #3f6ba5;
     margin-left: 5px;
 }
+
+/* 
+** absolute
+** fixed
+** flex
+** block
+*/
+
+.edit-form {
+    z-index: 1010;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    border: black solid 2px;
+    background-color: white;
+    color: black;
+    padding: 10px;
+}
+
+.edit-form-backdrop{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: black;
+    opacity: 0.5;
+    width: 100vw;
+    height: 100vh;
+}
