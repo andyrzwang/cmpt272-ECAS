@@ -157,7 +157,6 @@ function EmergencyList() {
               <p><strong>Submitted at: </strong><br />{report.submissionTime}</p>
               <p><strong>Status: </strong><br />{report.status}</p>
               <button onClick={() => deleteReport(report.id)} className="delete-button">Delete Submission</button>
-              <button onClick={() => handleEditClick(report)} className="edit-button">Edit Submission</button>
             </div>
           
             {expandedReportId === report.id && (
@@ -166,6 +165,7 @@ function EmergencyList() {
               <p><strong>Submitter's Phone: </strong><br />{report.phone}</p>
               <p><strong>Image: </strong><br />{report.image}</p>
               <p><strong>Comments: </strong><br />{report.comment}</p>
+              <button onClick={() => handleEditClick(report)} className="delete-button">Edit Submission</button>
             </div>
           )}
           </li>
