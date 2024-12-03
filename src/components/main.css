@@ -65,6 +65,12 @@ h3{
     background-color: #3f6ba5;
     padding: 20px;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.custom-button:hover {
+    background-color: #2d507c;
+    border-color: #2d507c;
 }
 
 .map{
