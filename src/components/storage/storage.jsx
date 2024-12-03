@@ -21,7 +21,7 @@ export function showReports(map, markerIcon) {
 }
 
 export function storeReport(data) {
-  const reportId = `report-${uuidv4()}`;
+  const reportId = data.id || `report-${uuidv4()}`;
   localStorage.setItem(reportId, JSON.stringify(data));
 }
 
