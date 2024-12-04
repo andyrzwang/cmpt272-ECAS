@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./form.css";
+import Map from "../Map";
 import { storeReport, getAllReports } from "../storage/storage";
 
-function Form({ lat, lng, setSidebar }) {
+function Form({ lat, lng, setUpdateMap, setSidebar }) {
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -12,7 +13,8 @@ function Form({ lat, lng, setSidebar }) {
     data.submissionTime = submissionTime;
     // Add status to data
     const status = "Open";
-    data.status = status;
+    data.status = status;  
+    setUpdateMap((prev) => !prev);
 
     //store in local storage
     storeReport(data);

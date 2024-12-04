@@ -19,7 +19,7 @@ function MapPage() {
         <Map setSidebar={setSidebar}/>
         <div className="sidebar">
           {sidebar.type === 'instructions' && <Instructions />}
-          {sidebar.type === "form" && <Form lat={sidebar.data.lat} lng={sidebar.data.lng} setSidebar={setSidebar}/>}
+          {sidebar.type === "form" && <Form lat={sidebar.data.lat} lng={sidebar.data.lng} setUpdateMap={sidebar.data.setUpdateMap} setSidebar={setSidebar}/>}
           {sidebar.type === "list" && <List setSidebar={setSidebar} data={sidebar.data}/>}
         </div>
       </div>
