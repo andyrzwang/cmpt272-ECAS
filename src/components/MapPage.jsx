@@ -1,7 +1,7 @@
 import Map from "./Map";
 import Instructions from "./Instructions";
 import Form from "./form/Form";
-import List from "./emergency-list/EmergencyList";
+import EmergencyList from "./emergency-list/EmergencyList";
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import "./main.css";
@@ -19,8 +19,8 @@ function MapPage() {
         <Map setSidebar={setSidebar}/>
         <div className="sidebar">
           {sidebar.type === 'instructions' && <Instructions />}
-          {sidebar.type === "form" && <Form lat={sidebar.data.lat} lng={sidebar.data.lng} setSidebar={setSidebar}/>}
-          {sidebar.type === "list" && <List setSidebar={setSidebar} data={sidebar.data}/>}
+          {sidebar.type === "form" && <Form lat={sidebar.data.lat} lng={sidebar.data.lng} setUpdateMap={sidebar.data.setUpdateMap} setSidebar={setSidebar}/>}
+          {sidebar.type === "list" && <EmergencyList setSidebar={setSidebar} setUpdateMap={sidebar.data.setUpdateMap}/>}
         </div>
       </div>
     </div>

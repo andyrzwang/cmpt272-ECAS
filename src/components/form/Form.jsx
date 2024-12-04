@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./form.css";
+import Map from "../Map";
 import { storeReport, getAllReports } from "../storage/storage";
 
-function Form({ lat, lng, setSidebar }) {
+function Form({ lat, lng, setUpdateMap, setSidebar }) {
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -13,17 +14,22 @@ function Form({ lat, lng, setSidebar }) {
     // Add status to data
     const status = "Open";
     data.status = status;
-
+    // Add hidden highlighted field to data
+    const highlighted = false;
+    data.highlighted = highlighted;
+    // Refresh the map  
+    setUpdateMap((prev) => !prev);
     //store in local storage
     storeReport(data);
-    setSidebar({ type: "list", data: data });
+    setSidebar({ type: "list", data: {setUpdateMap} });
     console.log(data);
   }
 
   function handleCancel() {
     const reports = getAllReports();
+    setUpdateMap((prev) => !prev);
     if (reports.length > 0) {
-      setSidebar({ type: "list", data: null });
+      setSidebar({ type: "list", data: {setUpdateMap} });
     } else{
       setSidebar({ type: "instructions", data: null });
     }
