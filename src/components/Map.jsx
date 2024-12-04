@@ -106,17 +106,17 @@ function Map({ setSidebar }) {
 
       // Create the content for the popup
       const popupContent = `
-        <div>
-          <h3>Incident Details</h3>
-          <p><strong>Time:</strong> ${report.time}</p>
-          <p><strong>Location:</strong> ${report.location}</p>
-          <p><strong>Incident Type:</strong> ${report.type}</p>
-          <p><strong>Description:</strong> ${report.description}</p>
-        </div>
-      `;
+    <div style="font-family: 'Arial', sans-serif; color: #333; padding: 10px; max-width: 250px;">
+      <h3 style="font-size: 18px; margin-bottom: 10px; color: #007bff;">Incident Details</h3>
+      <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Time:</strong> ${report.time}</p>
+      <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Location:</strong> ${report.location}</p>
+      <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Incident Type:</strong> ${report.type}</p>
+      <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Description:</strong> ${report.description}</p>
+    </div>
+  `;
 
       // Create a new Leaflet popup
-      const popup = L.popup({offset: L.point(0, -30)})
+      const popup = L.popup({ offset: L.point(0, -30) })
         .setLatLng([report.lat, report.lng]) // Position the popup at the marker's location
         .setContent(popupContent) // Set the content for the popup
         .openOn(map); // Open the popup on the map
