@@ -1,22 +1,27 @@
 import { v4 as uuidv4 } from "uuid";
 import L from "leaflet";
 
-export function showReports(map, markerIcon) {
+export function showReports(map, blueMarker, redMarker) {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     const value = localStorage.getItem(key);
     const data = JSON.parse(value);
 
-    const lat = data.lat;
-    const lng = data.lng;
+    if (data.lat && data.lng && data["emergency-type"] && data["location"]) {
+      const lat = parseFloat(data.lat);
+      const lng = parseFloat(data.lng);
 
-    L.marker([parseFloat(lat), parseFloat(lng)], {
-      icon: markerIcon, // Use the passed marker icon
-    })
-      .addTo(map)
-      .bindPopup(
-        `<b>${data["emergency-type"]}</b><br>Location: ${data["location"]}`
-      );
+      const markerIcon = data.highlighted ? redMarker : blueMarker;
+
+      // Create a new marker for report-related data only
+      L.marker([lat, lng], {
+        icon: markerIcon,  // Use the passed marker icon
+      })
+        .addTo(map)
+        .bindPopup(
+          `<b>${data["emergency-type"]}</b><br>Location: ${data["location"]}`
+        );
+    }
   }
 }
 

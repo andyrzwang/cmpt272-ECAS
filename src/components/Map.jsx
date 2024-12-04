@@ -28,6 +28,32 @@ const yellowMarker = L.icon({
 function Map({ setSidebar }) {
   let marker = null;
   const [updateMap, setUpdateMap] = useState(false);
+  const [currentPopup, setCurrentPopup] = useState(null);
+
+  const getSavedMapState = () => {
+    const savedState = localStorage.getItem("mapState");
+    if (savedState) {
+      return JSON.parse(savedState); // Return parsed saved map state
+    }
+    return { center: [49.279270550904485, -122.92023314700886], zoom: 10 }; // Default position if not saved
+  };
+
+  const getReportsFromLocalStorage = () => {
+    const reports = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const value = localStorage.getItem(key);
+      const data = JSON.parse(value);
+
+      // Ensure the data has the necessary fields
+      if (data.lat && data.lng && data["emergency-type"] && data["location"]) {
+        reports.push({
+          ...data,
+        });
+      }
+    }
+    return reports;
+  };
 
   useEffect(() => {
     const removeBoxShadow = () => {
@@ -37,17 +63,16 @@ function Map({ setSidebar }) {
       });
     };
 
-    var map = L.map("map").setView(
-      [49.279270550904485, -122.92023314700886],
-      11
-    );
+    const { center, zoom } = getSavedMapState();
+
+    // Initialize the map with saved center and zoom level
+    var map = L.map("map").setView(center, zoom);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
-
 
     // Add a marker on right click
     map.on("contextmenu", (event) => {
@@ -62,9 +87,58 @@ function Map({ setSidebar }) {
       removeBoxShadow();
     });
 
+    // Event listener to save the map state when it is moved or zoomed
+    map.on("moveend", () => {
+      const currentCenter = map.getCenter();
+      const currentZoom = map.getZoom();
+      // Save the current map state to localStorage
+      localStorage.setItem(
+        "mapState",
+        JSON.stringify({ center: currentCenter, zoom: currentZoom })
+      );
+    });
+
+    const handleMarkerClick = (report) => {
+      // If a popup is already open, remove it
+      if (currentPopup) {
+        currentPopup.remove();
+      }
+
+      // Create the content for the popup
+      const popupContent = `
+        <div>
+          <h3>Incident Details</h3>
+          <p><strong>Time:</strong> ${report.time}</p>
+          <p><strong>Location:</strong> ${report.location}</p>
+          <p><strong>Incident Type:</strong> ${report.type}</p>
+          <p><strong>Description:</strong> ${report.description}</p>
+        </div>
+      `;
+
+      // Create a new Leaflet popup
+      const popup = L.popup({offset: L.point(0, -30)})
+        .setLatLng([report.lat, report.lng]) // Position the popup at the marker's location
+        .setContent(popupContent) // Set the content for the popup
+        .openOn(map); // Open the popup on the map
+
+      // Update the currentPopup state to keep track of the opened popup
+      setCurrentPopup(popup);
+    };
+
+    // Fetch reports from localStorage and add markers
+    const reports = getReportsFromLocalStorage();
+    reports.forEach((report) => {
+      const markerIcon = report.highlighted ? redMarker : blueMarker;
+
+      const marker = L.marker([report.lat, report.lng], {
+        icon: markerIcon,
+      }).addTo(map);
+
+      // When the marker is clicked, show the report details in a popup
+      marker.on("click", () => handleMarkerClick(report));
+    });
+
     //localStorage.clear();
-    showReports(map, blueMarker);
-        
 
     return () => {
       map.remove();

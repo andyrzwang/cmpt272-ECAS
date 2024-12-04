@@ -5,11 +5,10 @@ import { useState, useEffect } from "react";
 import { EditForm } from "./mmspForm";
 import { getIsUserLoggedIn } from "../session";
 
-function EmergencyList() {
-
+function EmergencyList({ setSidebar, setUpdateMap }) {
   // Initialize states for reports and IsSorted
   const [reports, setReports] = useState([]);
-  const [isSorted, setIsSorted] = useState(false); 
+  const [isSorted, setIsSorted] = useState(false);
 
   const [editingReportData, setEditingReportData] = useState(null); // Store the report's data
   const [openEditForm, setOpenEditForm] = useState(false); // Open or close edit form modal
@@ -23,16 +22,16 @@ function EmergencyList() {
     const sortedReports = [...reports].sort((a, b) => {
       // If already sorted, sort by descending order (closed first)
       if (isSorted) {
-        if (a.status === 'Closed' && b.status === 'Open') {
+        if (a.status === "Closed" && b.status === "Open") {
           return -1;
-        } else if (a.status === 'Open' && b.status === 'Closed') {
+        } else if (a.status === "Open" && b.status === "Closed") {
           return 1;
         }
       } else {
         // Else, ascending order (open first)
-        if (a.status === 'Open' && b.status === 'Closed') {
+        if (a.status === "Open" && b.status === "Closed") {
           return -1;
-        } else if (a.status === 'Closed' && b.status === 'Open') {
+        } else if (a.status === "Closed" && b.status === "Open") {
           return 1;
         }
       }
@@ -51,7 +50,7 @@ function EmergencyList() {
   const endIndex = Math.min(currentStartIndex + reportsPerPage, reports.length);
   // Slice the reports array to get the reports to display on the current page
   const currentPageReports = reports.slice(currentStartIndex, endIndex);
-  
+
   const handleNext = () => {
     // Check if there are more reports to display on the next page
     // If there are, update the currentStartIndex forward 5 pages
@@ -59,7 +58,7 @@ function EmergencyList() {
       setCurrentStartIndex(currentStartIndex + reportsPerPage);
     }
   };
-  
+
   const handlePrevious = () => {
     // Check if there are any reports to display on the previous page
     // If there are, update the currentStartIndex back 5 reports
@@ -76,11 +75,54 @@ function EmergencyList() {
     // If the report is already expanded, collapse it
     if (expandedReportId === reportId) {
       setExpandedReportId(null);
-    // Else, expand the report
+      // Else, expand the report
     } else {
       setExpandedReportId(reportId);
     }
-  }
+  };
+
+  useEffect(() => {
+    if (expandedReportId) {
+      // Find the report with the expandedReportId
+      const expandedReportIndex = reports.findIndex(
+        (report) => report.id === expandedReportId
+      );
+
+      if (expandedReportIndex !== -1) {
+        // Create a copy of the reports array to modify it
+        const updatedReports = reports.map((report, index) => {
+          if (index === expandedReportIndex) {
+            return { ...report, highlighted: true }; // Set the expanded report to highlighted
+          }
+          return { ...report, highlighted: false };
+        });
+
+        if (openEditForm) {
+          return;
+        }
+
+        updatedReports.forEach((report) => onEditFormSave(report));
+
+        // Update the reports state with the new array
+
+        setUpdateMap((prev) => !prev);
+      }
+    } else {
+      // If no report is expanded, reset highlight to false for all reports
+      const updatedReports = reports.map((report) => ({
+        ...report,
+        highlighted: false, // Reset highlight to false for all reports
+      }));
+
+      if (openEditForm) {
+        return;
+      }
+
+      // Update the reports state
+      updatedReports.forEach((report) => onEditFormSave(report));
+      setUpdateMap((prev) => !prev);
+    }
+  }, [expandedReportId]);
 
   const deleteReport = (reportId) => {
     // Retrieve the user's login status
@@ -89,105 +131,155 @@ function EmergencyList() {
     if (!userStatus) {
       alert("You must be logged in to delete a submission");
       return;
-    // If the user is logged in, delete the report
-    } else{
+      // If the user is logged in, delete the report
+    } else {
       // Filter out the report to be deleted
       const updatedReports = reports.filter((report) => report.id !== reportId);
       // Remove the report from storage
       localStorage.removeItem(reportId);
       // Update the state of reports
       setReports(updatedReports);
+      refetchReports();
+      setUpdateMap((prev) => !prev);
     }
   };
 
-    const handleEditClick = (report) => {
-      const userStatus = getIsUserLoggedIn();
-      if (!userStatus) {
-        alert("You must be logged in to edit a submission");
-        return;
-      } else{
-        setOpenEditForm(true)
-        setEditingReportData(report)
+  const handleEditClick = (report) => {
+    const userStatus = getIsUserLoggedIn();
+    if (!userStatus) {
+      alert("You must be logged in to edit a submission");
+      return;
+    } else {
+      setOpenEditForm(true);
+      setEditingReportData(report);
+    }
+  };
+
+  const onEditFormSave = (updatedReport) => {
+    const updated = reports.map((report) => {
+      if (report.id === updatedReport.id) {
+        return { ...updatedReport };
       }
-    }
+    });
 
-    const onEditFormSave = (updatedReport) => {
-        const updated = reports.map(report => {
-            if (report.id === updatedReport.id) {
-                return {...updatedReport}
-            }
-        })
+    setReports((prevReports) => {
+      return prevReports.map((report) => {
+        if (report.id === updatedReport.id) {
+          // find in local storage, if it is there, update it as well
+          localStorage.setItem(report.id, JSON.stringify(updatedReport)); // Update in localStorage
+          return updated;
+        } else {
+          return report;
+        }
+      });
+    });
 
-        setReports((prevReports) => {
-            return prevReports.map(report => {
-                if (report.id === updatedReport.id) {
-                    // find in local storage, if it is there, update it as well
-                    localStorage.setItem(report.id, JSON.stringify(updatedReport)); // Update in localStorage
-                    return updated
-                }
-                else {
-                    return report
-                }
-            })
-        })
+    setOpenEditForm(false);
+    setEditingReportData(null);
+    refetchReports();
+  };
 
-        setOpenEditForm(false)
-        setEditingReportData(null)
-        refetchReports()
-    }
-
-    const refetchReports = () => {
-        const allReports = getAllReports()
-        setReports(allReports)
-    }
-  
+  const refetchReports = () => {
+    const allReports = getAllReports();
+    setReports(allReports);
+  };
 
   return (
-
     <div className="emergency-list">
-      <h2 className="emergency-list-header">Emergency List <br />
-        <em className="sub-heading">Click on a submission for more details</em> <br />
+      <h2 className="emergency-list-header">
+        Emergency List <br />
+        <em className="sub-heading">
+          Click on a submission for more details
+        </em>{" "}
+        <br />
       </h2>
 
       <div className="buttons">
         <button onClick={toggleSort}>
-          {isSorted ? 'Sort: Open First' : 'Sort: Closed First'}
+          {isSorted ? "Sort: Open First" : "Sort: Closed First"}
         </button>
       </div>
 
       <ul className="list">
-          {currentPageReports.map((report) => (  
+        {currentPageReports.map((report) => (
           <li key={report.id} onClick={() => displayDetails(report.id)}>
             <div className="main-details">
-              <p><strong>Type: </strong><br />{report["emergency-type"]}</p>
-              <p><strong>Location: </strong><br />{report.location}</p>
-              <p><strong>Submitted at: </strong><br />{report.submissionTime}</p>
-              <p><strong>Status: </strong><br />{report.status}</p>
-              <button onClick={() => deleteReport(report.id)} className="delete-button">Delete Submission</button>
+              <p>
+                <strong>Type: </strong>
+                <br />
+                {report["emergency-type"]}
+              </p>
+              <p>
+                <strong>Location: </strong>
+                <br />
+                {report.location}
+              </p>
+              <p>
+                <strong>Submitted at: </strong>
+                <br />
+                {report.submissionTime}
+              </p>
+              <p>
+                <strong>Status: </strong>
+                <br />
+                {report.status}
+              </p>
+              <button
+                onClick={() => deleteReport(report.id)}
+                className="delete-button"
+              >
+                Delete Submission
+              </button>
             </div>
-          
+
             {expandedReportId === report.id && (
-            <div className="additional-details">
-              <p><strong>Submitted By: </strong><br />{report.name}</p>
-              <p><strong>Submitter's Phone: </strong><br />{report.phone}</p>
-              <p><strong>Image: </strong><br />{report.image}</p>
-              <p><strong>Comments: </strong><br />{report.comment}</p>
-              <button onClick={() => handleEditClick(report)} className="delete-button">Edit Submission</button>
-            </div>
-          )}
+              <div className="additional-details">
+                <p>
+                  <strong>Submitted By: </strong>
+                  <br />
+                  {report.name}
+                </p>
+                <p>
+                  <strong>Submitter's Phone: </strong>
+                  <br />
+                  {report.phone}
+                </p>
+                <p>
+                  <strong>Image: </strong>
+                  <br />
+                  {report.image}
+                </p>
+                <p>
+                  <strong>Comments: </strong>
+                  <br />
+                  {report.comment}
+                </p>
+                <button
+                  onClick={() => handleEditClick(report)}
+                  className="delete-button"
+                >
+                  Edit Submission
+                </button>
+              </div>
+            )}
           </li>
         ))}
-        </ul>
-        {/* Edit Form */}
-        {
-          openEditForm && <EditForm report={editingReportData} onSaveChanges={onEditFormSave} onclickclose={setOpenEditForm}/>
-        }
+      </ul>
+      {/* Edit Form */}
+      {openEditForm && (
+        <EditForm
+          report={editingReportData}
+          onSaveChanges={onEditFormSave}
+          onclickclose={setOpenEditForm}
+        />
+      )}
 
-        <div className="buttons">
-          <button onClick={handlePrevious} disabled={currentStartIndex === 0}>Previous</button>
-          <button onClick={handleNext}>Next</button>
-        </div>
-
+      <div className="buttons">
+        <button onClick={handlePrevious} disabled={currentStartIndex === 0}>
+          Previous
+        </button>
+        <button onClick={handleNext}>Next</button>
+      </div>
     </div>
   );
 }
