@@ -3,9 +3,25 @@ import "./mmspForm.css";
 
 export const EditForm = ({ report, onSaveChanges, onclickclose }) => {
   const [updatedData, setUpdatedData] = useState(report);
+  const [imagePreview, setImagePreview] = useState(report.image);
 
   const handleSaveChangesClick = (newData) => {
     onSaveChanges(newData);
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result); // Preview the image
+        setUpdatedData((prev) => ({
+          ...prev,
+          image: reader.result, // Store the base64 string
+        }));
+      };
+      reader.readAsDataURL(file); // Convert the file to a base64 string
+    }
   };
 
   return (
@@ -59,16 +75,12 @@ export const EditForm = ({ report, onSaveChanges, onclickclose }) => {
         </div>
         <div>
           <label>Image</label>
-          <input
-            type="text"
-            value={updatedData["image"]}
-            onChange={(e) => {
-              e.preventDefault();
-              setUpdatedData((prev) => {
-                return { ...prev, image: e.target.value };
-              });
-            }}
-          />
+          <input type="file" accept="image/*" onChange={handleImageUpload} />
+          {imagePreview && (
+            <div>
+              <img src={imagePreview} alt="Uploaded Preview" width="200" />
+            </div>
+          )}
         </div>
         <div>
           <label>Comments</label>

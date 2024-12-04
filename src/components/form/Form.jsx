@@ -4,24 +4,37 @@ import Map from "../Map";
 import { storeReport, getAllReports } from "../storage/storage";
 
 function Form({ lat, lng, setUpdateMap, setSidebar }) {
+  const [image, setImage] = useState(null);
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-    // Add submission time to data
     const submissionTime = new Date().toLocaleString("en-CA");
     data.submissionTime = submissionTime;
-    // Add status to data
     const status = "Open";
     data.status = status;
-    // Add hidden highlighted field to data
     const highlighted = false;
     data.highlighted = highlighted;
-    // Refresh the map  
+
+    if (image) {
+      data.image = image;
+    }
+
     setUpdateMap((prev) => !prev);
-    //store in local storage
     storeReport(data);
-    setSidebar({ type: "list", data: {setUpdateMap} });
+    setSidebar({ type: "list", data: { setUpdateMap } });
     console.log(data);
   }
 
@@ -29,8 +42,8 @@ function Form({ lat, lng, setUpdateMap, setSidebar }) {
     const reports = getAllReports();
     setUpdateMap((prev) => !prev);
     if (reports.length > 0) {
-      setSidebar({ type: "list", data: {setUpdateMap} });
-    } else{
+      setSidebar({ type: "list", data: { setUpdateMap } });
+    } else {
       setSidebar({ type: "instructions", data: null });
     }
   }
@@ -65,28 +78,26 @@ function Form({ lat, lng, setUpdateMap, setSidebar }) {
             Location <span className="required-field">*</span>
           </label>
           <input type="text" id="location" name="location" required></input>
-          <label htmlFor="image">Image URL</label>
+          <label htmlFor="image">Upload Image</label>
           <input
-            type="url"
+            type="file"
             id="image"
             name="image"
-            placeholder="Image URL"
+            accept="image/*"
+            onChange={handleImageUpload}
           ></input>
-          <label htmlFor="comment">Comment</label>
-          <textarea
-            id="comment"
-            name="comment"
-            placeholder="Comment..."
-          ></textarea>
-          <p>
-            <em>
-              Latitude and Longtitude are required to display the pin on the
-              map.
-              Right-click on the map to input or change the coordinates.
-            </em>
-          </p>
-          <label htmlFor="lat">Latitude <small>(automatically filled out based on
-            marker placement; only changed through marker placement)</small></label>
+          {image && (
+            <div>
+              <img src={image} alt="Uploaded Preview" width="200" />
+            </div>
+          )}
+          <label htmlFor="lat">
+            Latitude{" "}
+            <small>
+              (automatically filled out based on marker placement; only changed
+              through marker placement)
+            </small>
+          </label>
           <input
             type="text"
             id="lat"
@@ -94,8 +105,13 @@ function Form({ lat, lng, setUpdateMap, setSidebar }) {
             value={lat.toFixed(5)}
             readOnly
           ></input>
-          <label htmlFor="lng">Longitude <small>(automatically filled out based on
-            marker placement; only changed through marker placement)</small></label>
+          <label htmlFor="lng">
+            Longitude{" "}
+            <small>
+              (automatically filled out based on marker placement; only changed
+              through marker placement)
+            </small>
+          </label>
           <input
             type="text"
             id="lng"

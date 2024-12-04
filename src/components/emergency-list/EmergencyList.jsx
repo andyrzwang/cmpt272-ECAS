@@ -276,7 +276,9 @@ function EmergencyList({ setSidebar, setUpdateMap }) {
                 <p>
                   <strong>Image: </strong>
                   <br />
-                  {report.image}
+                  {report.image && (
+                    <img src={report.image} alt="Submitted Image" width="200" />
+                  )}
                 </p>
                 <p>
                   <strong>Comments: </strong>
@@ -295,7 +297,7 @@ function EmergencyList({ setSidebar, setUpdateMap }) {
                   }}
                   className="delete-button"
                 >
-                  Change Status{" "}
+                  Change Status
                 </button>
               </div>
             )}

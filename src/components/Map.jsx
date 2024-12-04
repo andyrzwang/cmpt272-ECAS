@@ -106,14 +106,17 @@ function Map({ setSidebar }) {
 
       // Create the content for the popup
       const popupContent = `
-    <div style="font-family: 'Arial', sans-serif; color: #333; padding: 10px; max-width: 250px;">
-      <h3 style="font-size: 18px; margin-bottom: 10px; color: #007bff;">Incident Details</h3>
-      <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Time:</strong> ${report.time}</p>
-      <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Location:</strong> ${report.location}</p>
-      <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Incident Type:</strong> ${report.type}</p>
-      <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Description:</strong> ${report.description}</p>
+  <div style="font-family: 'Arial', sans-serif; color: #333; padding: 10px; max-width: 250px;">
+    <h3 style="font-size: 18px; margin-bottom: 10px; color: #007bff;">Incident Details</h3>
+    <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Time:</strong> ${report.time}</p>
+    <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Location:</strong> ${report.location}</p>
+    <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Incident Type:</strong> ${report.type}</p>
+    <p style="margin: 8px 0; font-size: 14px;"><strong style="color: #333;">Description:</strong> ${report.description}</p>
+    <div style="margin-top: 10px; text-align: center;">
+      <img src="${report.image}" alt="Incident Image" style="max-width: 100%; height: auto; border-radius: 4px;">
     </div>
-  `;
+  </div>
+`;
 
       // Create a new Leaflet popup
       const popup = L.popup({ offset: L.point(0, -30) })
