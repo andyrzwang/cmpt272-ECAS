@@ -87,12 +87,47 @@ function EmergencyList() {
       return;
     // If the user is logged in, delete the report
     } else{
+      // show a alert to confirm the deletion
+      const confirmDelete = window.confirm("Are you sure you want to delete this submission?");
       // Filter out the report to be deleted
-      const updatedReports = reports.filter((report) => report.id !== reportId);
-      // Remove the report from storage
-      localStorage.removeItem(reportId);
+      if (!confirmDelete) {
+        return;
+      } else{
+        const updatedReports = reports.filter((report) => report.id !== reportId);
+        // Remove the report from storage
+        localStorage.removeItem(reportId);
+        // Update the state of reports
+        setReports(updatedReports);
+      }
+      
+    }
+  };
+
+  const editReport = (reportId) => {
+    // Retrieve the user's login status
+    const userStatus = getIsUserLoggedIn();
+    // If the user is not logged in, prompot the user to log in and return
+    if (!userStatus) {
+      alert("You must be logged in to edit a submission");
+      return;
+    // If the user is logged in, edit the report
+    } else{
+      //a alert with 3 input boxes to edit the report
+      const status = prompt("Change the status of the report (Open/Closed):");
+      //input prompt with multiple input boxes to edit the report
+      
+
+
+      // Retrieve the report to be edited
+      const report = reports.find((report) => report.id === reportId);
+      // Update the report with the new information
+      report.status = status;
+      // Update the report in storage
+      localStorage.setItem(reportId, JSON.stringify(report));
       // Update the state of reports
-      setReports(updatedReports);
+      setReports([...reports]);
+
+
     }
   };
 
@@ -127,7 +162,7 @@ function EmergencyList() {
               <p><strong>Submitter's Phone: </strong><br />{report.phone}</p>
               <p><strong>Image: </strong><br />{report.image}</p>
               <p><strong>Comments: </strong><br />{report.comment}</p>
-              <button onClick={() => deleteReport(report.id)} className="delete-button">Edit Submission</button>
+              <button onClick={() => editReport(report.id)} className="delete-button">Edit Submission</button>
             </div>
           )}
           </li>

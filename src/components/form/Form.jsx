@@ -45,7 +45,7 @@ function Form({ lat, lng, setSidebar }) {
             type="tel"
             id="phone"
             name="phone"
-            pattern="^\(\d{3}\)\s\d{3}-\d{4}$"
+            // pattern="^\(\d{3}\)\s\d{3}-\d{4}$"
             required
             title="Phone number must be in the format (123) 456-7890"
           ></input>
