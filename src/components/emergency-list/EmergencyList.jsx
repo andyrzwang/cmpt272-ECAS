@@ -1,7 +1,8 @@
 import React from "react";
 import "./emergencyList.css";
-import { getAllReports } from "../storage/storage";
+import { getAllReports, storeReport } from "../storage/storage";
 import { useState, useEffect } from "react";
+import { EditForm } from "./mmspForm";
 import { getIsUserLoggedIn } from "../session";
 
 function EmergencyList() {
@@ -9,6 +10,9 @@ function EmergencyList() {
   // Initialize states for reports and IsSorted
   const [reports, setReports] = useState([]);
   const [isSorted, setIsSorted] = useState(false); 
+
+  const [editingReportData, setEditingReportData] = useState(null); // Store the report's data
+  const [openEditForm, setOpenEditForm] = useState(false); // Open or close edit form modal
 
   useEffect(() => {
     const storedReports = getAllReports();
@@ -96,6 +100,48 @@ function EmergencyList() {
     }
   };
 
+    const handleEditClick = (report) => {
+      const userStatus = getIsUserLoggedIn();
+      if (!userStatus) {
+        alert("You must be logged in to edit a submission");
+        return;
+      } else{
+        setOpenEditForm(true)
+        setEditingReportData(report)
+      }
+    }
+
+    const onEditFormSave = (updatedReport) => {
+        const updated = reports.map(report => {
+            if (report.id === updatedReport.id) {
+                return {...updatedReport}
+            }
+        })
+
+        setReports((prevReports) => {
+            return prevReports.map(report => {
+                if (report.id === updatedReport.id) {
+                    // find in local storage, if it is there, update it as well
+                    localStorage.setItem(report.id, JSON.stringify(updatedReport)); // Update in localStorage
+                    return updated
+                }
+                else {
+                    return report
+                }
+            })
+        })
+
+        setOpenEditForm(false)
+        setEditingReportData(null)
+        refetchReports()
+    }
+
+    const refetchReports = () => {
+        const allReports = getAllReports()
+        setReports(allReports)
+    }
+  
+
   return (
 
     <div className="emergency-list">
@@ -108,7 +154,6 @@ function EmergencyList() {
           {isSorted ? 'Sort: Open First' : 'Sort: Closed First'}
         </button>
       </div>
-
 
       <ul className="list">
           {currentPageReports.map((report) => (  
@@ -127,12 +172,16 @@ function EmergencyList() {
               <p><strong>Submitter's Phone: </strong><br />{report.phone}</p>
               <p><strong>Image: </strong><br />{report.image}</p>
               <p><strong>Comments: </strong><br />{report.comment}</p>
-              <button onClick={() => deleteReport(report.id)} className="delete-button">Edit Submission</button>
+              <button onClick={() => handleEditClick(report)} className="delete-button">Edit Submission</button>
             </div>
           )}
           </li>
         ))}
         </ul>
+        {/* Edit Form */}
+        {
+          openEditForm && <EditForm report={editingReportData} onSaveChanges={onEditFormSave} onclickclose={setOpenEditForm}/>
+        }
 
         <div className="buttons">
           <button onClick={handlePrevious} disabled={currentStartIndex === 0}>Previous</button>
