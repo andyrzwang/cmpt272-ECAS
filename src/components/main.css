@@ -11,26 +11,31 @@ main{
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.main-information{
+.main-information {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    margin-bottom: 30px;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 100%;
     margin-top: 45px;
-    margin-left: -20px;
+    margin-bottom: 30px;
 }
 
-.main-summary{
+.main-summary {
     text-align: center;
-    flex: 1 1 30%;
-    margin-left: 30px;
+    flex: 1;
+    margin: 0 15px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
-    line-height: 3;
+    line-height: 1.6;
     border-radius: 5px;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    border: 3px solid #3f6ba5; ;
-
+    padding: 20px;
+    border: 3px solid #3f6ba5;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    line-height: 2;
 }
 
 h2{
