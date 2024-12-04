@@ -1,7 +1,8 @@
 import { useState } from "react"
 
 export const EditForm = ({report, onSaveChanges, onclickclose}) => {
-    const [updatedData, setUpdatedData] = useState(report)
+    //const [updatedData, setUpdatedData] = useState(report)
+    const [updatedData, setUpdatedData] = useState({...report, status: report.status || 'Open'})
 
     const handleSaveChangesClick = (newData) => {
         onSaveChanges(newData)
@@ -65,6 +66,25 @@ export const EditForm = ({report, onSaveChanges, onclickclose}) => {
                         })
                     }}
                     />
+                </div>
+                {/* Add this block just before the "Save Changes" button */}
+                <div>
+                <label>Status</label>
+                <select value={updatedData.status} onChange={(e) => {
+                    e.preventDefault();
+                    const newStatus = e.target.value;
+                    setUpdatedData((prev) => ({
+                        ...prev, 
+                        status: newStatus
+                    }));
+                    // Call refetchReports to reload the reports and update the UI immediately
+                    refetchReports(); // This will ensure the latest data is shown
+                }}
+                >
+                    <option value="Open">Open</option>
+                    <option value="Closed">Closed</option>
+                </select>
+
                 </div>
                 <button type="submit">
                     Save Changes
