@@ -38,9 +38,6 @@ export function getAllReports() {
     
     const value = localStorage.getItem(key);
     const data = JSON.parse(value);
-    if (i % 2 === 0) {
-      data.status = 'Closed';
-    }
     reports.push({ id: key, ...data });
   }
   

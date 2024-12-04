@@ -184,6 +184,36 @@ function EmergencyList({ setSidebar, setUpdateMap }) {
     setReports(allReports);
   };
 
+  
+  const toggleStatus = (reportId) => {
+    // If the user is not logged in, prompt the user to log in and return
+    if (!getIsUserLoggedIn()) {
+      alert("You must be logged in to change the status of a submission");
+      return;
+    }
+    
+    setReports((prevReports) => {
+      return prevReports.map((report) => {
+        // If the report id is equal to our target report then...
+        if (report.id === reportId) {
+          // Update the status of the report depending on if it's open or closed
+          const updatedReport = {
+            ...report,
+            status: report.status === "Open" ? "Closed" : "Open"
+          };
+  
+          // Update the report in storage
+          localStorage.setItem(report.id, JSON.stringify(updatedReport));
+  
+          return updatedReport; 
+        }
+        return report;
+      });
+    });
+  
+    setUpdateMap((prev) => !prev);
+  };
+
   return (
     <div className="emergency-list">
       <h2 className="emergency-list-header">
@@ -260,6 +290,7 @@ function EmergencyList({ setSidebar, setUpdateMap }) {
                 >
                   Edit Submission
                 </button>
+                <button onClick={() => {toggleStatus(report.id)}} className="delete-button">Change Status </button>
               </div>
             )}
           </li>
