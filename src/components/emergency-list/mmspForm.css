@@ -1,4 +1,3 @@
-/* Backdrop styling */
 .edit-form-backdrop {
     position: fixed;
     top: 0;
@@ -9,7 +8,6 @@
     z-index: 999;
 }
 
-/* Form container styling */
 .edit-form {
     position: fixed;
     top: 50%;
@@ -24,8 +22,8 @@
     width: 100%;
 }
 
-/* Input field styling */
-.edit-form input[type="text"] {
+.edit-form input[type="text"],
+.edit-form input[type="file"] {
     width: 100%;
     padding: 8px;
     margin: 8px 0;
@@ -34,7 +32,6 @@
     box-sizing: border-box;
 }
 
-/* Label styling */
 .edit-form label {
     font-size: 14px;
     font-weight: bold;
@@ -43,7 +40,6 @@
     color: #333;
 }
 
-/* Button styling */
 .edit-form button {
     padding: 10px 16px;
     margin: 8px 4px 0 0;
@@ -65,4 +61,13 @@
 
 .edit-form button:hover {
     opacity: 0.9;
+}
+
+.edit-form img {
+    max-width: 100%;
+    max-height: 200px;
+    /* Adjust this value as needed */
+    margin-top: 10px;
+    object-fit: contain;
+    /* Maintain aspect ratio */
 }
