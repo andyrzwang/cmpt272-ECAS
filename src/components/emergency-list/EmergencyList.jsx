@@ -100,46 +100,67 @@ function EmergencyList() {
     }
   };
 
-    const handleEditClick = (report) => {
-      const userStatus = getIsUserLoggedIn();
-      if (!userStatus) {
-        alert("You must be logged in to edit a submission");
-        return;
-      } else{
-        setOpenEditForm(true)
-        setEditingReportData(report)
-      }
+  const handleEditClick = (report) => {
+    const userStatus = getIsUserLoggedIn();
+    if (!userStatus) {
+      alert("You must be logged in to edit a submission");
+      return;
+    } else{
+      setOpenEditForm(true)
+      setEditingReportData(report)
     }
+  }
 
-    const onEditFormSave = (updatedReport) => {
-        const updated = reports.map(report => {
+  const onEditFormSave = (updatedReport) => {
+    const updated = reports.map(report => {
+        if (report.id === updatedReport.id) {
+            return {...updatedReport}
+        }
+    })
+
+    setReports((prevReports) => {
+        return prevReports.map(report => {
             if (report.id === updatedReport.id) {
-                return {...updatedReport}
+                // find in local storage, if it is there, update it as well
+                localStorage.setItem(report.id, JSON.stringify(updatedReport)); // Update in localStorage
+                return updated
+            }
+            else {
+                return report
             }
         })
+    })
+    setOpenEditForm(false)
+    setEditingReportData(null)
+    refetchReports()
+  }
 
-        setReports((prevReports) => {
-            return prevReports.map(report => {
-                if (report.id === updatedReport.id) {
-                    // find in local storage, if it is there, update it as well
-                    localStorage.setItem(report.id, JSON.stringify(updatedReport)); // Update in localStorage
-                    return updated
-                }
-                else {
-                    return report
-                }
-            })
-        })
+  const refetchReports = () => {
+    const allReports = getAllReports()
+    setReports(allReports)
+  }
 
-        setOpenEditForm(false)
-        setEditingReportData(null)
-        refetchReports()
+  const toggleStatus = (reportId) => {
+    if (!getIsUserLoggedIn()) {
+      alert("You must be logged in to change the status of a submission");
+      return;
     }
-
-    const refetchReports = () => {
-        const allReports = getAllReports()
-        setReports(allReports)
-    }
+    
+    setReports((prevReports) => {
+      return prevReports.map((report) => {
+        // If the report ID matches the report ID to change, change its status
+        if (report.id === reportId) {
+          return {
+            ...report,
+            // If the status is open, change it to closed and vice versa
+            status: report.status === "Open" ? "Closed" : "Open",
+          };
+        }
+        return report;
+      });
+    });
+  };
+    
   
 
   return (
@@ -173,6 +194,7 @@ function EmergencyList() {
               <p><strong>Image: </strong><br />{report.image}</p>
               <p><strong>Comments: </strong><br />{report.comment}</p>
               <button onClick={() => handleEditClick(report)} className="delete-button">Edit Submission</button>
+              <button onClick={() => {toggleStatus(report.id);}} className="delete-button">Change Status </button>
             </div>
           )}
           </li>
